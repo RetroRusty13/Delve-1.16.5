@@ -1,0 +1,5 @@
+{
+	"variants": {
+		"": { "model": "delvecore:block/test_block"}
+	}
+}
