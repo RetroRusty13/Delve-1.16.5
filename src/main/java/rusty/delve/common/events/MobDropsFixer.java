@@ -30,7 +30,7 @@ public class MobDropsFixer
 		
 		// Checks if player has damaged the target before
 		Set<String> tags = target.getTags();
-		String name = player.getName().getString();
+		String name = player.getStringUUID();
 		int index = -1;
 		boolean flag = false;
 		String tag = "";
@@ -83,10 +83,8 @@ public class MobDropsFixer
 			damages.add(Integer.parseInt(str.substring(str.indexOf(".") + 1)));
 		}
 		
-		// Adds exp or drops to player inventories proportional to the damage they dealt
-		for(int i = 0; i < players.size(); i++)
-		{
-			
-		}
+		// (Supposed to) Adds exp or drops to player inventories proportional to the damage they dealt
+		//PlayerList allPlayers = target.getServer().getPlayerList();
+		if(target.getServer() == null) System.out.println("It's null fuckwit");
 	}
 }
