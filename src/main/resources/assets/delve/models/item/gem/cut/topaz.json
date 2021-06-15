@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "delvecore:items/test_item"
+		"layer0": "delve:items/gem/cut/topaz"
 	}
 }

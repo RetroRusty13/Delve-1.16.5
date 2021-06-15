@@ -2,9 +2,12 @@ package rusty.delve.common.events;
 
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.UUID;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -36,13 +39,13 @@ public class MobDropsFixer
 		String tag = "";
 		for (String str : tags)
 		{
-			if(str.indexOf("delvedamage+") == 0)
+			if(str.indexOf("delvedamagetotal+") == 0)
 			{
 				tag = str;
 				index = str.indexOf(".");
-				if (index < -1) str = str.substring(12, index + 1);
+				if (index > -1) str = str.substring(17, index);
 				if(str.equals(name)) flag = true;
-				if(flag) return;
+				if(flag) break;
 			}
 		}
 		
@@ -63,11 +66,11 @@ public class MobDropsFixer
 		Entity target = event.getEntity();
 		Set<String> tags = target.getTags();
 		
-		// Gets the list of players that damaged the target entity
+		// Gets the list of tags of players that damaged the target entity
 		ArrayList<String> playersDamagedEntity = new ArrayList<String>();
 		for (String str : tags)
 		{
-			if(str.indexOf("delvedamage+") == 0)
+			if(str.indexOf("delvedamagetotal+") == 0)
 			{
 				playersDamagedEntity.add(str);
 			}
@@ -79,12 +82,19 @@ public class MobDropsFixer
 		for(int i = 0; i < playersDamagedEntity.size(); i++)
 		{
 			String str = playersDamagedEntity.get(i);
-			players.add(str.substring(12, str.indexOf(".")));
+			players.add(str.substring(17, str.indexOf(".")));
 			damages.add(Integer.parseInt(str.substring(str.indexOf(".") + 1)));
 		}
 		
 		// (Supposed to) Adds exp or drops to player inventories proportional to the damage they dealt
 		//PlayerList allPlayers = target.getServer().getPlayerList();
-		if(target.getServer() == null) System.out.println("It's null fuckwit");
+		for(int i = 0; i < players.size(); i++)
+		{
+			PlayerEntity player = event.getEntityLiving().getCommandSenderWorld().getPlayerByUUID(UUID.fromString(players.get(i)));
+			if(player != null)
+			{
+				player.inventory.add(new ItemStack(Items.DIAMOND, damages.get(i)));
+			}
+		}
 	}
 }

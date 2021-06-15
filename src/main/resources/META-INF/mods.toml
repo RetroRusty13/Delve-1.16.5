@@ -2,7 +2,7 @@ modLoader="javafml" #mandatory
 loaderVersion="[36,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license="All rights reserved"
 [[mods]] #mandatory
-modId="delvecore" #mandatory
+modId="delve" #mandatory
 version="0.0.1" #mandatory
 displayName="Delve Core" #mandatory
 logoFile="examplemod.png" #optional
